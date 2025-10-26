@@ -1,0 +1,20 @@
+﻿# ===== Python & VSCode Ignore =====
+__pycache__/
+*.py[cod]
+*.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,76 @@
+# ======================================================
+# 一键初始化本地项目并推送到 GitHub
+# 仓库地址: https://github.com/YangDaoONE/math_model.git
+# ======================================================
+
+# ====== 配置信息 ======
+$repoName = "math_model"
+$remoteUrl = "https://github.com/YangDaoONE/math_model.git"
+
+# ====== Step 1: 生成 README.md ======
+Write-Host "===> Step 1: 生成 README.md"
+if (!(Test-Path README.md)) {
+    "# $repoName`n`n本项目初始化于 $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')。" | Out-File -Encoding UTF8 README.md
+    Write-Host "已创建 README.md"
+} else {
+    Write-Host "README.md 已存在，跳过创建"
+}
+
+# ====== Step 2: 生成 .gitignore (Python模板) ======
+Write-Host "===> Step 2: 生成 .gitignore"
+if (!(Test-Path .gitignore)) {
+@"
+# ===== Python & VSCode Ignore =====
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+"@ | Out-File -Encoding UTF8 .gitignore
+    Write-Host "已创建 .gitignore"
+} else {
+    Write-Host ".gitignore 已存在，跳过创建"
+}
+
+# ====== Step 3: 初始化 git 仓库 ======
+Write-Host "===> Step 3: 初始化 git 仓库"
+if (!(Test-Path .git)) {
+    git init
+    Write-Host "已执行 git init"
+} else {
+    Write-Host "Git 已初始化，跳过 git init"
+}
+
+# ====== Step 4: 设置主分支为 main ======
+git branch -M main
+
+# ====== Step 5: 添加文件 ======
+git add .
+
+# ====== Step 6: 提交 ======
+git commit -m "Initial commit: bootstrap math_model"
+
+# ====== Step 7: 绑定远程仓库 ======
+Write-Host "===> Step 7: 绑定远程仓库"
+git remote remove origin 2>$null
+git remote add origin $remoteUrl
+
+# ====== Step 8: 推送到 GitHub ======
+Write-Host "===> Step 8: 推送到 GitHub (main 分支)"
+git push -u origin main
+
+Write-Host "🎉 完成！仓库已推送至 $remoteUrl"
